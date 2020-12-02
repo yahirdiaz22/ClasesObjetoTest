@@ -19,12 +19,52 @@ namespace ClasesObjetoTest
 
         private void lblCalcularResultado_Click(object sender, EventArgs e)
         {
-            Fraccion f1 = new Fraccion((int)numNumerador1.Value, (int)numDenominador1.Value);
-            Fraccion f2 = new Fraccion((int)numNumerador2.Value, (int)numDenominador2.Value);
+            Fraccion f1 = new Fraccion((int)numEntero1.Value, (int)numNumerador1.Value,(int)numDenominador1.Value);
+            Fraccion f2 = new Fraccion((int)numEntero2.Value, (int)numDenominador2.Value);
+            Fraccion resultado =null;
+            switch (cboOperacion.Text)
+            {
+                case "+":
+                    resultado = f1.Sumar(f2);
+                    break;
+                case "-":
+                    resultado = f1.Restar(f2);
+                    break;
+                case "/":
+                    resultado = f1.Dividir(f2);
+                    break;
+                case "*":
+                    resultado = f1.Multiplicar(f2);
+                    break;
+                default:
+                    MessageBox.Show("Falta seleccionar la operacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                    break;
+            }
+            lblLinea.Text = "_________";
+            if (resultado.Entero ==0)
+            {
+                lblResultado.Text = "";
+            }
+            else
+            {
+                lblResultado.Text = resultado.Entero + "";
+            }
+            if (resultado.Numerador ==0)
+            {
+                lblResultadoNumerador.Text = "";
+                lblResultadoDenominador.Text = "";
+            }
+            else
+            {
+                lblResultadoNumerador.Text = "";
+                lblResultadoDenominador.Text = "";
+                lblLinea.Text = "";
+            }
 
-            Fraccion resultado = f1.Sumar(f2);
-
-            lblResultado.Text = resultado.ToString();
+            lblResultado.Text = resultado.Entero+"";
+            lblResultadoNumerador.Text = resultado.Numerador + ""; ;
+            lblResultadoDenominador.Text = resultado.Denominador + ""; ;
         }
     }
 }

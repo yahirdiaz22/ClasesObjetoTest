@@ -59,10 +59,42 @@ namespace ClasesObjetoTest
         {
             
             int denominadorComun = denominador * otra.denominador;
+            int e1 = entero * denominadorComun;
+            int n1 = (denominadorComun / otra.denominador) * otra.numerador;
+            n1 += e1;
+            int e2 = otra.entero * denominadorComun;
+            int n2 = (denominadorComun / otra.denominador) * otra.numerador;
+            n2 += e2;
+            Fraccion resultado = new Fraccion(n1 + n2, denominadorComun);
+            resultado = simplificar(resultado);
+            return resultado;
+        }
+        public Fraccion Restar(Fraccion otra)
+        {
+
+            int denominadorComun = denominador * otra.denominador;
             int e = entero * denominadorComun;
             int n1 = (denominadorComun / denominador) * numerador;
             int n2 = (denominadorComun / otra.denominador) * otra.numerador;
-            Fraccion resultado = new Fraccion(n1 + n2 + e, denominadorComun);
+            Fraccion resultado = new Fraccion(n1 - n2 - e, denominadorComun);
+            resultado = simplificar(resultado);
+            return resultado;
+        }
+        public Fraccion Dividir(Fraccion otra)
+        {
+
+            int n1 = numerador + (entero + denominador);
+            int n2 = otra.numerador + (otra.entero * otra.denominador);
+            Fraccion resultado = new Fraccion(n1 * otra.denominador, n2* denominador);
+            resultado = simplificar(resultado);
+            return resultado;
+        }
+        public Fraccion Multiplicar(Fraccion otra)
+        {
+
+            int n1 = numerador + (entero + denominador);
+            int n2 = otra.numerador + (otra.entero * otra.denominador);
+            Fraccion resultado = new Fraccion(n1 * n2 , denominador* otra.denominador);
             resultado = simplificar(resultado);
             return resultado;
         }
@@ -77,22 +109,40 @@ namespace ClasesObjetoTest
             int n = (f.Entero * f.Denominador) + f.Numerador;
             int d = f.Denominador;
             int e = 0;
+            bool negativo = false;
+                if (n <0)
+            {
+                negativo = true;
+                    n *= -1;
+            }
 
             //Reducir la fraccion
             //Calcular el Max comun divisor
             int mcd = MaximoComunDivisor(n,  d);
-
-
-            //Reducir la fraccion en base al MCD
-            n = n / mcd;
-            d = d / mcd;
-           
-            if (n >= d)
+            if (mcd != 0)
             {
-                e = n / d;
-                n = n %  denominador;
-            }
 
+
+
+
+                //Reducir la fraccion en base al MCD
+                n = n / mcd;
+                d = d / mcd;
+
+                if (n >= d)
+                {
+                    e = n / d;
+                    n = n % d;
+                }
+               }
+            if (negativo && e > 0)
+            {
+                e *= -1;
+            }
+            if (negativo && e < 0)
+            {
+                e *= -1;
+            }
             fraccionSimplificada = new Fraccion(n, d);
             //Regresar la fraccion reducida 
           return fraccionSimplificada;
@@ -110,7 +160,18 @@ namespace ClasesObjetoTest
         }
         public override string ToString()
         {
-            return  entero + "" +numerador + "/" + denominador;
+            
+            if (entero ==0)
+            {
+                return  numerador + "/" + denominador;
+            }
+            if (numerador ==0)
+            {
+                return entero + " ";
+            }
+            return entero + " " + numerador + "/" + denominador ;
         }
+        
+
     }
 }
